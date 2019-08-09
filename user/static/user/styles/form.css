@@ -1,0 +1,57 @@
+.form-window {
+  background-color: #cccccc;
+  margin: 30px auto;
+  padding: 10px 20px 20px 20px;
+  border-radius: 10px;
+  box-sizing: border-box;
+  width: 400px;
+}
+
+.input-control {
+  text-align: center;
+  size: 25px;
+}
+
+body {
+  font: normal 16px Roboto, arial, sans-serif;
+}
+
+a {
+  text-decoration: none;
+}
+
+.form-window h1:hover {
+  color: rgb(46, 129, 83);
+}
+
+.input-control a {
+  color: darkcyan;
+}
+
+.input-control a:hover {
+  text-decoration: underline;
+}
+
+h1 {
+  text-align: center;
+}
+
+input {
+  border-radius: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  height: 46px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 5px 15px;
+  /* size: 20px; */
+  size: inherit;
+}
+
+button {
+  background-color: #337ab7;
+  color: white;
+  margin: 10px 0;
+  padding: 5px 15px;
+  border-radius: 7px;
+}
