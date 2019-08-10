@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <title>Register...</title>
+
+    {% load static %}
+    <!--    CSS     -->
+    <link rel="stylesheet" type="text/css" href="{% static 'user/styles/form.css' %}">
+    <!--    Javascript  -->
+    <script src="{% static 'user/scripts/register.js' %}" async></script>
+
+    <!--    Vue.js  -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+</head>
+
+<body>
+    <div class="form-window">
+        <a href="./index.html">
+            <h1>WebRef</h1>
+        </a>
+        <form id="user-register" @submit="formCheck" action="{% url 'user:register' %}" method="POST">
+            {% csrf_token %}
+            <div class="input-control">
+                <input type="email" id="email-to-register" name="username" placeholder="邮箱" autofocus v-model="username">
+                <!-- <p class="error" v-if="!username_is_valid"> {{ username_error }} </p> -->
+                {% ifequal username_is_valid False%}
+                <p class="error" > 该邮箱已被注册！ </p>
+                {% endifequal %}
+                <p class="helptext">请输入您的电子邮件地址作为用户名，长度需小于150字符。</p>
+                <input type="text" id="nickname" name="nickname" placeholder="昵称" v-model="nickname">
+                <input type="password" id="password1" name="password1" placeholder="密码" v-model="password1">
+                <p class="error" v-if="!password1IsValid"> 密码长度不符合要求！ </p>
+                <p class="helptext">"请输入长度在8 ~ 30位之间的密码，可包含特殊字符。"</p>
+                <input type="password" id="password2" name="password2" placeholder="确认密码" v-model="password2">
+                <p class="error" v-if="!password2IsValid"> 两次输入密码不一致 </p>
+                <a href="./login.html">返回登录页</a> 
+                <button type="submit">注册</button> 
+            </div> 
+        </form>
+    </div>
+</body>
+
+</html>

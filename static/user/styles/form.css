@@ -12,6 +12,20 @@
   size: 25px;
 }
 
+.helptext {
+  size: 25px;
+  color: #7a7a7a;
+  text-align: left;
+  padding: 0 15px;
+}
+
+.error {
+  size: 25px;
+  color: red;
+  text-align: left;
+  padding: 0 15px;
+}
+
 body {
   font: normal 16px Roboto, arial, sans-serif;
 }
