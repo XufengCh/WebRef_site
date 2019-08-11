@@ -1,18 +1,24 @@
 from django.shortcuts import render, redirect
 from django.http import HttpRequest
-from .forms import RegisterForm
+from .models import User
 
 # Create your views here.
 def register(request):
-    user_is_valid = True
-
+    request.encoding = 'utf-8'
     if request.method == 'POST':
-        form = RegisterForm(request.POST)
+        username = request.POST['username']
+        email = request.POST['username']
+        nickname = request.POST['nickname']
+        password = request.POST['password1']
 
-        if form.is_valid():
-            form.save()
-            return redirect('login/')
-        else:
-            user_is_valid = False
+        try:
+            user_to_register = User.objects.create_user(username=username, email=email, password=password)
+        except IntegrityError:
+            username_is_valid = False
+            return render(request, 'user/register.html', context={'username_is_valid': username_is_valid})
+        # username is valid
+        user_to_register.nickname = nickname
+        user_to_register.save()
+        return
 
-    return render(request, 'user/register.html', context={'user_is_valid': user_is_valid})
+    return render(request, 'user/register.html')

@@ -5,16 +5,16 @@ var registerForm = new Vue({
         nickname : '',
         password1 : '',
         password2 : '',
-        usernameHelptext : "请输入您的电子邮件地址作为用户名，长度需小于150字符。",
-        passwordHelptext : "请输入长度在8 ~ 30位之间的密码，可包含特殊字符。",
-        usernameError : "该邮箱已被注册！",
-        password1Error : "密码长度不符合要求！",
-        password2Error : "两次输入密码不一致！",
+        //usernameHelptext : "请输入您的电子邮件地址作为用户名，长度需小于150字符。",
+        //passwordHelptext : "请输入长度在8 ~ 30位之间的密码，可包含特殊字符。",
+        //usernameError : "该邮箱已被注册！",
+        //password1Error : "密码长度不符合要求！",
+        //password2Error : "两次输入密码不一致！",
         //username_is_valid : true,
         password1IsValid : true,
         password2IsValid : true
     },
-    method : {
+    methods : {
         formCheck : function(event){
             if(this.username.length < 1){
                 event.preventDefault();
@@ -47,4 +47,4 @@ var registerForm = new Vue({
             return true;
         }
     }
-})
+});
