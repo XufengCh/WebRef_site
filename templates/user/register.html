@@ -36,7 +36,7 @@
                 <p class="helptext">请输入长度在8 ~ 30位之间的密码，可包含特殊字符。</p>
                 <input type="password" id="password2" name="password2" placeholder="确认密码" v-model="password2">
                 <p class="error" v-if="!password2IsValid"> 两次输入密码不一致 </p>
-                <a href="./login.html">返回登录页</a> 
+                <a href="{% url 'login' %}">返回登录页</a>
                 <button type="submit">注册</button> 
             </div> 
         </form>
