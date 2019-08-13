@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpRequest
 from .models import User
+from django.db import IntegrityError
 
 # Create your views here.
 def register(request):
@@ -14,8 +15,8 @@ def register(request):
         try:
             user_to_register = User.objects.create_user(username=username, email=email, password=password)
         except IntegrityError:
-            username_is_valid = False
-            return render(request, 'user/register.html', context={'username_is_valid': username_is_valid})
+            username_not_valid = True
+            return render(request, 'user/register.html', context={'username_not_valid': username_not_valid})
         # username is valid
         user_to_register.nickname = nickname
         user_to_register.save()
