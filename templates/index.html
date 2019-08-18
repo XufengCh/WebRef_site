@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <title>WebRef, the online reference manager</title>
+
+    <!--    Vue.js  -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+
+    {% load static %}
+    <!--    CSS     -->
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/index.css' %}">
+    <!--    Javascript  -->
+    <script src="{% static 'scripts/index.js' %}" async></script>
+</head>
+
+<body>
+    <div id="top">
+        <h1>WebRef</h1>
+        <div id="user-auth">
+        {% if user.is_authenticated %}
+            <p>欢迎，{{ user.username }}</p>
+            <a href="{% url 'logout' %}">退出</a>
+        {% else %}
+            <p>请先<a href="{% url 'login' %}">登录</a></p>
+        {% endif %}
+        </div>
+    </div>
+
+    <div id="sidebar">
+        <div id="library-edit">
+            <button>新建</button>
+            <button>编辑</button>
+            <button>删除</button>
+        </div>
+
+        <ul id="">
+            <li v-for="item in libraries">
+                {{ item }}
+            </li>
+        </ul>
+    </div>
+
+    <div id="content">
+        <div id="ref-edit">
+            <button>添加</button>
+            <button>编辑</button>
+            <button>生成引用</button>
+            <button>删除</button>
+        </div>
+
+        <table id="ref-table">
+            <tr>
+                <th scope="col">&nbsp;</th>
+                <th scope="col">Type</th>
+                <th scope="col">Author</th>
+                <th scope="col">Title</th>
+                <th scope="col">Journal/Book Title</th>
+                <th scope="col">year</th>
+                <th scope="col">Comment</th>
+            </tr>
+        </table>
+    </div>
+</body>
+
+</html>

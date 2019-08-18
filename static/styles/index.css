@@ -1,0 +1,92 @@
+html {
+    font-family: sans-serif;
+}
+
+body {
+  background-color: #e9e7ef;
+  margin: 0;
+}
+
+#top {
+  height: 70px;
+  border-bottom-color: #808080;
+  border-bottom-width: 15px;
+  border-bottom-style: solid;
+  padding: 0 10px 0;
+}
+
+#sidebar {
+  position: absolute;
+  left: 0;
+  top: 100px;
+  width: 160px;
+  height: 400px;
+  background-color: darkgray;
+  color: white;
+}
+
+#library-edit {
+  background-color: rgb(43, 42, 42);
+  padding: 5px 0;
+  text-align: center;
+}
+
+#content {
+  position: absolute;
+  top: 100px;
+  left: 200px;
+  right: 10px;
+  height: 400px;
+  background-color: darkgray;
+  border: 5px solid #808080;
+}
+
+#ref-edit {
+  background-color: rgb(43, 42, 42);
+  padding: 5px 10px;
+  text-align: left;
+}
+
+#top h1 {
+  size: 50px;
+  float: left;
+  margin: 10px 0 10px 20px;
+}
+
+#user-auth {
+  text-align: right;
+  float: right;
+  padding: 25px 10px 0;
+}
+
+#user-auth p, #user-auth a {
+  padding: 0px 10px 0px;
+  display: inline;
+}
+
+#sidebar ul {
+  list-style-type: none;
+}
+
+table {
+  border-collapse: collapse;
+  border: 2px solid rgb(200, 200, 200);
+  letter-spacing: 1px;
+  font-size: 0.8rem;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+td,
+th {
+  border: 1px solid rgb(190, 190, 190);
+  padding: 10px 20px;
+}
+
+th {
+  background-color: rgb(235, 235, 235);
+}
+
+td {
+  text-align: center;
+}

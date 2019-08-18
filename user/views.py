@@ -20,6 +20,6 @@ def register(request):
         # username is valid
         user_to_register.nickname = nickname
         user_to_register.save()
-        return
+        return redirect(to='/')
 
     return render(request, 'user/register.html')

@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'user.apps.UserConfig',
+    'user',
+    'ref',
 ]
 
 MIDDLEWARE = [
@@ -129,3 +130,6 @@ LOGIN_REDIRECT_URL = '/'
 
 # LOGOUT REDIRECT
 LOGOUT_REDIRECT_URL = '/'
+
+# store files
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

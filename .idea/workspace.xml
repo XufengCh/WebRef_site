@@ -2,23 +2,30 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8b1fd84a-139c-4484-ac81-abc2f3c965fd" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/WebRef_site/views.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ref/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ref/admin.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ref/apps.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ref/migrations/0001_initial.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ref/migrations/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ref/models.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ref/tests.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ref/views.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/scripts/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/styles/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WebRef_site/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/WebRef_site/settings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/WebRef_site/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/WebRef_site/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/user/scripts/register.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/user/scripts/register.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/user/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/user/register.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/registration/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/registration/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/user/views.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
-  </component>
-  <component name="FindInProjectRecents">
-    <findStrings>
-      <find>In</find>
-    </findStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -101,5 +108,8 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
   </component>
 </project>
