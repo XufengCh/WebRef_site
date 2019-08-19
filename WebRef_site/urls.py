@@ -22,4 +22,5 @@ urlpatterns = [
     path('user/', include('user.urls')),
     path('user/', include('django.contrib.auth.urls')),
     path('', views.index, name='index'),
+    path('ref/', include('ref.urls')),
 ]

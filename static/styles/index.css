@@ -25,6 +25,12 @@ body {
   color: white;
 }
 
+#new-lib {
+  width: 100%;
+  margin: 0 auto;
+  padding: 5px 2px 5px;
+}
+
 #library-edit {
   background-color: rgb(43, 42, 42);
   padding: 5px 0;
@@ -47,6 +53,10 @@ body {
   text-align: left;
 }
 
+.active {
+  background-color: rgb(120, 160, 200);
+}
+
 #top h1 {
   size: 50px;
   float: left;
@@ -64,8 +74,15 @@ body {
   display: inline;
 }
 
-#sidebar ul {
-  list-style-type: none;
+#new-lib input, #libs input {
+  width: 150px;
+  margin: 0 auto;
+}
+
+#new-lib button, #libs button {
+  text-align: center;
+  width: 100px;
+  margin: 0 auto;
 }
 
 table {

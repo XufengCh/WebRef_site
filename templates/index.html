@@ -31,16 +31,28 @@
 
     <div id="sidebar">
         <div id="library-edit">
-            <button>新建</button>
-            <button>编辑</button>
+            <button @click="add">新建</button>
+            <button @click="edit">编辑</button>
             <button>删除</button>
         </div>
 
-        <ul id="">
-            <li v-for="item in libraries">
-                {{ item }}
-            </li>
-        </ul>
+        <div id="libs">
+            {% for lib in libraries %}
+            <div class="libtab" id="lib-{{ lib.id }}" @click="activateTab">
+                <p v-if="isDisplay" :class="{ active: isActive }">{{ lib.library_name }}</p>
+                <form action="{% url 'ref:libedit' lib.id %}" method="POST" v-else>
+                    {% csrf_token %}
+                    <input type="text" name="editname" value="{{ lib.library_name }}" maxlength="100" required>
+                    <button type="submit">确认</button>
+                </form>
+            </div>
+            {% endfor %}
+        </div>
+        <form id="new-lib" action="{% url 'ref:create' %}" method="POST" v-if="isNewLib">
+            {% csrf_token %}
+            <input type="text" name="libname">
+            <button type="submit">确定</button> 
+        </form>
     </div>
 
     <div id="content">
