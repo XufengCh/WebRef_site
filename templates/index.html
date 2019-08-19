@@ -31,23 +31,27 @@
 
     <div id="sidebar">
         <div id="library-edit">
-            <button @click="add">新建</button>
-            <button @click="edit">编辑</button>
-            <button>删除</button>
+            <button type="button" @click="add">新建</button>
+            <button type="button" @click="edit">编辑</button>
+            <form id="delete-lib" action="{% url 'ref:delete-lib' %}" method="POST">
+                {% csrf_token %}
+                <input type="text" name="delete_id" v-model="activeLibId" hidden>
+                <button type="button" @click="delete">删除</button>
+            </form>
         </div>
 
-        <div id="libs">
+        <ul id="libs">
             {% for lib in libraries %}
-            <div class="libtab" id="lib-{{ lib.id }}" @click="activateTab">
-                <p v-if="isDisplay" :class="{ active: isActive }">{{ lib.library_name }}</p>
-                <form action="{% url 'ref:libedit' lib.id %}" method="POST" v-else>
+            <div class="libtab" id="lib-{{ lib.id }}" @click="activateTab('lib-{{ lib.id }}')">
+                <li>{{ lib.library_name }}</li>
+                <form action="{% url 'ref:libedit' lib.id %}" method="POST" hidden>
                     {% csrf_token %}
                     <input type="text" name="editname" value="{{ lib.library_name }}" maxlength="100" required>
                     <button type="submit">确认</button>
                 </form>
             </div>
             {% endfor %}
-        </div>
+        </ul>
         <form id="new-lib" action="{% url 'ref:create' %}" method="POST" v-if="isNewLib">
             {% csrf_token %}
             <input type="text" name="libname">

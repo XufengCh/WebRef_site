@@ -29,3 +29,9 @@ def libedit(request, library_id):
             lib.save()
         return redirect('/')
     return redirect('/')
+
+
+# delete library
+def delete_lib(request):
+
+    redirect('/')

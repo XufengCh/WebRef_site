@@ -57,6 +57,11 @@ body {
   background-color: rgb(120, 160, 200);
 }
 
+.labtab {
+  padding: 5px;
+  width: 100%;
+}
+
 #top h1 {
   size: 50px;
   float: left;
@@ -74,15 +79,26 @@ body {
   display: inline;
 }
 
-#new-lib input, #libs input {
+#new-lib input {
   width: 150px;
   margin: 0 auto;
+}
+
+#libs input {
+  size: 16px;
+  padding: 3px 5px 3px;
+  box-sizing: border-box;
+  width: 100%;
 }
 
 #new-lib button, #libs button {
   text-align: center;
   width: 100px;
   margin: 0 auto;
+}
+
+#libs button {
+  width: 100%;
 }
 
 table {
@@ -106,4 +122,16 @@ th {
 
 td {
   text-align: center;
+}
+
+ul, li {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+li {
+  padding: 5px;
+  border-collapse: collapse;
+  border: 2px solid rgb(200, 200, 200);
 }
