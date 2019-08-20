@@ -6,4 +6,4 @@ class LibEditForm(forms.Form):
 
 
 class DeleteLibForm(forms.Form):
-    delete
+    delete_id = forms.IntegerField(required=True, min_value=1)

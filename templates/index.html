@@ -35,8 +35,8 @@
             <button type="button" @click="edit">编辑</button>
             <form id="delete-lib" action="{% url 'ref:delete-lib' %}" method="POST">
                 {% csrf_token %}
-                <input type="text" name="delete_id" v-model="activeLibId" hidden>
-                <button type="button" @click="delete">删除</button>
+                <input type="number" name="delete_id" v-model="activeLibId" hidden required>
+                <button type="button" @click="deleteLib">删除</button>
             </form>
         </div>
 
@@ -52,11 +52,13 @@
             </div>
             {% endfor %}
         </ul>
+        {% if user.is_authenticated %}
         <form id="new-lib" action="{% url 'ref:create' %}" method="POST" v-if="isNewLib">
             {% csrf_token %}
             <input type="text" name="libname">
             <button type="submit">确定</button> 
         </form>
+        {% endif %}
     </div>
 
     <div id="content">

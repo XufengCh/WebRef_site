@@ -1,7 +1,7 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, Http404
 from .models import Library
 from user.models import User
-from .forms import LibEditForm
+from .forms import LibEditForm, DeleteLibForm
 
 
 # Create your views here.
@@ -33,5 +33,14 @@ def libedit(request, library_id):
 
 # delete library
 def delete_lib(request):
+    if request.method == "POST" and request.user.is_authenticated:
+        form = DeleteLibForm(request.POST)
+        if form.is_valid():
+            lib_to_delete = get_object_or_404(Library, pk=form.cleaned_data["delete_id"])
 
-    redirect('/')
+            if lib_to_delete.user.username != request.user.username:
+                raise Http404("用户权限错误！")
+
+            lib_to_delete.delete()
+
+    return redirect('/')

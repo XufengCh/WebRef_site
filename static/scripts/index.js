@@ -37,7 +37,11 @@ var sidebar = new Vue({
     },
     computed: {
         activeLibId: function(){
-            
+            //from this.activeTab get library_id
+            if(this.activeTab === null || this.activeTab === ""){
+                return null;
+            }
+            return Number(this.activeTab.slice(4, this.activeTab.length))
         },
     },
     methods: {
@@ -84,7 +88,7 @@ var sidebar = new Vue({
             if(activeDiv !== null)
                 activeDiv.classList.add("active");
         },
-        delete: function(){
+        deleteLib: function(){
             if(this.activeTab === "" || this.activeTab === null){
                 return;
             }
