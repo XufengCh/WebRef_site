@@ -87,6 +87,8 @@ var sidebar = new Vue({
             let activeDiv = document.getElementById(lib_id);
             if(activeDiv !== null)
                 activeDiv.classList.add("active");
+
+            content.setDefaultContent();
         },
         deleteLib: function(){
             if(this.activeTab === "" || this.activeTab === null){
@@ -100,3 +102,23 @@ var sidebar = new Vue({
         } 
     }
 });
+
+var content = new Vue({
+    el: "#content",
+    data: function(){
+        return {
+            showDefault: true,
+            showAddTab: false,
+        }
+    },
+    methods: {
+        setDefaultContent: function(){
+            this.showDefault = true;
+            this.showAddTab = false;
+        },
+        addRef: function(){
+            this.showDefault = false;
+            this.showAddTab = true;
+        }
+    }
+})

@@ -17,70 +17,87 @@
 </head>
 
 <body>
-    <div id="top">
-        <h1>WebRef</h1>
-        <div id="user-auth">
+<div id="top">
+    <h1>WebRef</h1>
+    <div id="user-auth">
         {% if user.is_authenticated %}
-            <p>欢迎，{{ user.username }}</p>
-            <a href="{% url 'logout' %}">退出</a>
+        <p>欢迎，{{ user.username }}</p>
+        <a href="{% url 'logout' %}">退出</a>
         {% else %}
-            <p>请先<a href="{% url 'login' %}">登录</a></p>
+        <p>请先<a href="{% url 'login' %}">登录</a></p>
         {% endif %}
-        </div>
+    </div>
+</div>
+
+<div id="sidebar">
+    <div id="library-edit">
+        <button type="button" @click="add">新建</button>
+        <button type="button" @click="edit">编辑</button>
+        <form id="delete-lib" action="{% url 'ref:delete-lib' %}" method="POST">
+            {% csrf_token %}
+            <input type="number" name="delete_id" v-model="activeLibId" hidden required>
+            <button type="button" @click="deleteLib">删除</button>
+        </form>
     </div>
 
-    <div id="sidebar">
-        <div id="library-edit">
-            <button type="button" @click="add">新建</button>
-            <button type="button" @click="edit">编辑</button>
-            <form id="delete-lib" action="{% url 'ref:delete-lib' %}" method="POST">
+    <ul id="libs">
+        {% for lib in libraries %}
+        <div class="libtab" id="lib-{{ lib.id }}" @click="activateTab('lib-{{ lib.id }}')">
+            <li>{{ lib.library_name }}</li>
+            <form action="{% url 'ref:libedit' lib.id %}" method="POST" hidden>
                 {% csrf_token %}
-                <input type="number" name="delete_id" v-model="activeLibId" hidden required>
-                <button type="button" @click="deleteLib">删除</button>
+                <input type="text" name="editname" value="{{ lib.library_name }}" maxlength="100" required>
+                <button type="submit">确认</button>
             </form>
         </div>
+        {% endfor %}
+    </ul>
+    {% if user.is_authenticated %}
+    <form id="new-lib" action="{% url 'ref:create' %}" method="POST" v-if="isNewLib">
+        {% csrf_token %}
+        <input type="text" name="libname">
+        <button type="submit">确定</button>
+    </form>
+    {% endif %}
+</div>
 
-        <ul id="libs">
-            {% for lib in libraries %}
-            <div class="libtab" id="lib-{{ lib.id }}" @click="activateTab('lib-{{ lib.id }}')">
-                <li>{{ lib.library_name }}</li>
-                <form action="{% url 'ref:libedit' lib.id %}" method="POST" hidden>
-                    {% csrf_token %}
-                    <input type="text" name="editname" value="{{ lib.library_name }}" maxlength="100" required>
-                    <button type="submit">确认</button>
-                </form>
-            </div>
-            {% endfor %}
-        </ul>
-        {% if user.is_authenticated %}
-        <form id="new-lib" action="{% url 'ref:create' %}" method="POST" v-if="isNewLib">
-            {% csrf_token %}
-            <input type="text" name="libname">
-            <button type="submit">确定</button> 
-        </form>
-        {% endif %}
+<div id="content">
+    <div id="ref-edit">
+        <button @click="addRef">添加</button>
+        <button>编辑</button>
+        <button>生成引用</button>
+        <button>删除</button>
     </div>
 
-    <div id="content">
-        <div id="ref-edit">
-            <button>添加</button>
-            <button>编辑</button>
-            <button>生成引用</button>
-            <button>删除</button>
+    <div id="content-tab">
+        <div id="default-tab" v-if="showDefault">
+            <table id="ref-table">
+                <tr>
+                    <th scope="col">&nbsp;</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Author</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Journal/Book Title</th>
+                    <th scope="col">year</th>
+                    <th scope="col">Comment</th>
+                </tr>
+            </table>
         </div>
 
-        <table id="ref-table">
-            <tr>
-                <th scope="col">&nbsp;</th>
-                <th scope="col">Type</th>
-                <th scope="col">Author</th>
-                <th scope="col">Title</th>
-                <th scope="col">Journal/Book Title</th>
-                <th scope="col">year</th>
-                <th scope="col">Comment</th>
-            </tr>
-        </table>
+        <div id="add-tab" v-if="showAddTab">
+            <p>
+                <h2>请上传pdf文件</h2>
+            </p>
+            <form action="" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="number" name="library_id" v-model="activeLibId" hidden>
+                <label>文件: </label>
+                <input type="file" name="pdf" style="display: inline">
+                <button type="submit">上传</button>
+            </form>
+        </div>
     </div>
+</div>
 </body>
 
 </html>
