@@ -88,7 +88,7 @@
             <p>
                 <h2>请上传pdf文件</h2>
             </p>
-            <form action="" method="POST" enctype="multipart/form-data">
+            <form action="{%url 'ref:add-ref' %}" method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
                 <input type="number" name="library_id" v-model="activeLibId" hidden>
                 <label>文件: </label>
