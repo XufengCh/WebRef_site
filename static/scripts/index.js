@@ -111,12 +111,20 @@ var content = new Vue({
             showAddTab: false,
         }
     },
+    computed: {
+        activeLibId: function(){
+            return sidebar.activeLibId;
+        }
+    },
     methods: {
         setDefaultContent: function(){
             this.showDefault = true;
             this.showAddTab = false;
         },
         addRef: function(){
+            if(this.activeLibId === null || this.activeLibId < 1)
+                return;
+
             this.showDefault = false;
             this.showAddTab = true;
         }

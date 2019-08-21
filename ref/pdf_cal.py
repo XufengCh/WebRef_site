@@ -11,13 +11,10 @@ DEFAULT_INFO = {
 
 
 def get_pdf_md5_hash(pdf):
-    blocksize = 65536
     hasher = hashlib.md5()
 
-    buf = pdf.chunks(chunk_size=blocksize)
-    while len(buf) > 0:
-        hasher.update(buf)
-        buf = pdf.chunks(chunk_size=blocksize)
+    for chunk in pdf.chunks():
+        hasher.update(chunk)
 
     return hasher.hexdigest()
 
@@ -25,6 +22,6 @@ def get_pdf_md5_hash(pdf):
 def get_default_info(pdf_upload):
     info = DEFAULT_INFO
     # TODO: extract pdf to get default info
-    info['title'] = pdf_upload.name
+    info['title'] = pdf_upload.name[:-4]
 
     return info

@@ -2,15 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8b1fd84a-139c-4484-ac81-abc2f3c965fd" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/ref/migrations/0002_auto_20190821_1849.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ref/migrations/0003_pdffile_ref.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/media/uploads/2019/08/21/PReNet_cvpr_camera.pdf" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ref/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/ref/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ref/pdf_cal.py" beforeDir="false" afterPath="$PROJECT_DIR$/ref/pdf_cal.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ref/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/ref/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ref/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/ref/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/scripts/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/scripts/index.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
