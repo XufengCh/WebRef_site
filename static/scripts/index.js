@@ -1,7 +1,7 @@
 //display
 
 //libraries
-var libraries = document.querySelectorAll(".libtab");
+//var libraries = document.querySelectorAll(".libtab");
 /* if(libraries != null){
     for(var i = 0; i < libraries.length; i++){
         new Vue({
@@ -45,6 +45,43 @@ var sidebar = new Vue({
         },
     },
     methods: {
+        getRefList: function(lib_id){
+            if(lib_id === null || lib_id < 1)
+                return null;
+
+            // use axios to get ref list
+            content.refsAvailable = false;
+            axios.get('/ref/get-lib', {
+                params: {
+                    library_id: lib_id,
+                }
+            })
+            .then(function(response){
+                console.log("Getting Library Success...");
+                console.log(response);
+
+                //sidebar.refsList = response.data;
+                //copy response.data
+                content.refs = [];
+                var temp = response.data;
+                temp.forEach(function(val, index){
+                   var ref = {};
+                   ref['ref_id'] = val.ref_id;
+                   ref['comment'] = val.comment;
+                   var info = {};
+                   for(var key in val.info){
+                        info[key] = val.info[key];
+                   }
+                   ref['info'] = info;
+                   content.refs.push(ref);
+                });
+
+                content.refsAvailable = true;
+            })
+            .catch(function(error){
+                console.log(error);
+            });
+        },
         removeActiveTab: function(){
             //reset activeTab class
             if(this.activeTab === null || this.activeTab === ""){
@@ -88,6 +125,9 @@ var sidebar = new Vue({
             if(activeDiv !== null)
                 activeDiv.classList.add("active");
 
+            //get library
+            this.getRefList(this.activeLibId);
+            //show default content
             content.setDefaultContent();
         },
         deleteLib: function(){
@@ -109,12 +149,14 @@ var content = new Vue({
         return {
             showDefault: true,
             showAddTab: false,
+            refsAvailable: false,
+            refs: [],
         }
     },
     computed: {
         activeLibId: function(){
             return sidebar.activeLibId;
-        }
+        },
     },
     methods: {
         setDefaultContent: function(){

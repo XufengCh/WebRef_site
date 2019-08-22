@@ -9,4 +9,5 @@ urlpatterns = [
     path('<int:library_id>/libedit', views.libedit, name='libedit'),
     path('delete-lib/', views.delete_lib, name="delete-lib"),
     path('add-ref/', views.add_ref, name="add-ref"),
+    path('get-lib/', views.get_library, name="get-lib"),
 ]

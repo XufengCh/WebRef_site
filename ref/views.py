@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404, Http404
+from django.http import JsonResponse
 from .models import Library, PdfFile, Ref
 from user.models import User
 from .forms import LibEditForm, DeleteLibForm, UploadPdfForm
@@ -88,3 +89,25 @@ def add_ref(request):
             # save
             new_ref.save()
     return redirect('/')
+
+
+def get_library(request):
+    if request.method == 'GET':
+        # get library_id
+        libarary_id = request.GET.get('library_id')
+        # get refs of the library
+        lib = get_object_or_404(Library, pk=libarary_id)
+        refs_in_lib = lib.ref_set.all()
+        # return JSON string
+        # for ref in refs_in_lib:
+        # return ref_id, info, comment
+        data = []
+        item = {}
+        for ref in refs_in_lib:
+            item['ref_id'] = ref.id
+            item['info'] = json.loads(ref.info_json)
+            item['comment'] = ref.comment
+            data.append(item)
+
+        return JsonResponse(data, safe=False)
+    return JsonResponse({"error": "HTTP request error. ", "detail": "Only GET is supported. "})

@@ -9,6 +9,9 @@
     <!--    Vue.js  -->
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
 
+    <!--    Axios for Ajax  -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
     {% load static %}
     <!--    CSS     -->
     <link rel="stylesheet" type="text/css" href="{% static 'styles/index.css' %}">
@@ -78,15 +81,31 @@
                     <th scope="col">Author</th>
                     <th scope="col">Title</th>
                     <th scope="col">Journal/Book Title</th>
-                    <th scope="col">year</th>
+                    <th scope="col">Year</th>
                     <th scope="col">Comment</th>
                 </tr>
+                <!-- TODO: use Ajax to get ref list -->
+                {% verbatim refslist %}
+                <!--<div v-if="refsAvailable">
+                    <div v-for="ref in refs">
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>{{ ref.info.type }}</td>
+                            <td>{{ ref.info.author }}</td>
+                            <td>{{ ref.info.title }}</td>
+                            <td>{{ ref.info.journal_or_booktitle }}</td>
+                            <td>{{ ref.info.year }}</td>
+                            <td>{{ ref.comment }}</td>
+                        </tr>
+                    </div>
+                </div>-->
+                {% endverbatim refslist %}
             </table>
         </div>
 
         <div id="add-tab" v-if="showAddTab">
             <p>
-                <h2>请上传pdf文件</h2>
+            <h2>请上传pdf文件</h2>
             </p>
             <form action="{%url 'ref:add-ref' %}" method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
