@@ -74,7 +74,7 @@
 
     <div id="content-tab">
         <div id="default-tab" v-if="showDefault">
-            <table id="ref-table">
+            <table id="ref-table" v-if="refsAvailable">
                 <tr>
                     <th scope="col">&nbsp;</th>
                     <th scope="col">Type</th>
@@ -86,19 +86,16 @@
                 </tr>
                 <!-- TODO: use Ajax to get ref list -->
                 {% verbatim refslist %}
-                <!--<div v-if="refsAvailable">
-                    <div v-for="ref in refs">
-                        <tr>
-                            <td>&nbsp;</td>
-                            <td>{{ ref.info.type }}</td>
-                            <td>{{ ref.info.author }}</td>
-                            <td>{{ ref.info.title }}</td>
-                            <td>{{ ref.info.journal_or_booktitle }}</td>
-                            <td>{{ ref.info.year }}</td>
-                            <td>{{ ref.comment }}</td>
-                        </tr>
-                    </div>
-                </div>-->
+                <tr v-for="ref in refs">
+<!--                    {{ ref }}-->
+                    <td>&nbsp;</td>
+                    <td>{{ ref.info.type }}</td>
+                    <td>{{ ref.info.author }}</td>
+                    <td>{{ ref.info.title }}</td>
+                    <td>{{ ref.info.journal_or_booktitle }}</td>
+                    <td>{{ ref.info.year }}</td>
+                    <td>{{ ref.comment }}</td>
+                </tr>
                 {% endverbatim refslist %}
             </table>
         </div>
