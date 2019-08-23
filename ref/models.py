@@ -25,3 +25,6 @@ class Ref(models.Model):
     info_json = models.TextField(max_length=1000)
     comment = models.TextField(max_length=500)
     pdf = models.ForeignKey(to=PdfFile, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.library.library_name + '-' + str(self.id)

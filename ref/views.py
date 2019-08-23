@@ -56,24 +56,19 @@ def add_ref(request):
         form = UploadPdfForm(request.POST, request.FILES)
         # check user auth and form
         if request.user.is_authenticated and form.is_valid():
-            print("form is valid")
-
             # get library by library_id
             library_to_add = get_object_or_404(Library, pk=form.cleaned_data['library_id'])
             # check user
             if request.user.username != library_to_add.user.username:
                 raise Http404("用户权限错误！")
-            print("library and user are right")
 
             # get pdf file
             pdf = form.cleaned_data["pdf"]
             # calculate HASH (MD5)
             pdf_hash = get_pdf_md5_hash(pdf)
-            print("pdf hash get: " + pdf_hash)
             # search the database PdfFile to get foreign key
             try:
                 pdf_saved = PdfFile.objects.get(hash=pdf_hash)
-                print("Pdf exists")
             # if pdf file don't exist, save it to the PdfFile database
             except PdfFile.DoesNotExist:
                 # get default info
@@ -81,7 +76,6 @@ def add_ref(request):
                 # create & save pdf_saved
                 pdf_saved = PdfFile(hash=pdf_hash, pdf_file=pdf, init_json=json.dumps(init_info_dict))
                 pdf_saved.save()
-                print("pdf file created")
 
             # create new Reference instance
             new_ref = Ref(library=library_to_add, info_json=pdf_saved.init_json,
@@ -102,11 +96,9 @@ def get_library(request):
         # for ref in refs_in_lib:
         # return ref_id, info, comment
         data = []
-        item = {}
+
         for ref in refs_in_lib:
-            item['ref_id'] = ref.id
-            item['info'] = json.loads(ref.info_json)
-            item['comment'] = ref.comment
+            item = {'ref_id': ref.id, 'info': json.loads(ref.info_json), 'comment': ref.comment}
             data.append(item)
 
         return JsonResponse(data, safe=False)

@@ -74,7 +74,7 @@
 
     <div id="content-tab">
         <div id="default-tab" v-if="showDefault">
-            <table id="ref-table" v-if="refsAvailable">
+            <table id="ref-table">
                 <tr>
                     <th scope="col">&nbsp;</th>
                     <th scope="col">Type</th>
@@ -86,7 +86,7 @@
                 </tr>
                 <!-- TODO: use Ajax to get ref list -->
                 {% verbatim refslist %}
-                <tr v-for="ref in refs">
+                <tr v-for="ref in refs" :id="'ref-'+ref.ref_id" @click="activateRef('ref-'+ref.ref_id)">
 <!--                    {{ ref }}-->
                     <td>&nbsp;</td>
                     <td>{{ ref.info.type }}</td>
@@ -100,7 +100,7 @@
             </table>
         </div>
 
-        <div id="add-tab" v-if="showAddTab">
+        <div id="add-tab" v-else-if="showAddTab">
             <p>
             <h2>请上传pdf文件</h2>
             </p>

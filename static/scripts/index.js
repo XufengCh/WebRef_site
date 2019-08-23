@@ -50,7 +50,7 @@ var sidebar = new Vue({
                 return null;
 
             // use axios to get ref list
-            content.refsAvailable = false;
+            //content.refsAvailable = false;
             axios.get('/ref/get-lib', {
                 params: {
                     library_id: lib_id,
@@ -76,7 +76,7 @@ var sidebar = new Vue({
                    content.refs.push(ref);
                 });
 
-                content.refsAvailable = true;
+//                content.refsAvailable = true;
             })
             .catch(function(error){
                 console.log(error);
@@ -149,8 +149,9 @@ var content = new Vue({
         return {
             showDefault: true,
             showAddTab: false,
-            refsAvailable: false,
+//            refsAvailable: false,
             refs: [],
+            activeRef: '',
         }
     },
     computed: {
@@ -169,6 +170,11 @@ var content = new Vue({
 
             this.showDefault = false;
             this.showAddTab = true;
-        }
+        },
+        removeActiveRef: function(){
+        },
+        activateRef: function(ref_id){
+
+        },
     }
 })
