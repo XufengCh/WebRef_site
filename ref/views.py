@@ -85,6 +85,7 @@ def add_ref(request):
     return redirect('/')
 
 
+# get the references of the library, using ajax
 def get_library(request):
     if request.method == 'GET':
         # get library_id
@@ -103,3 +104,8 @@ def get_library(request):
 
         return JsonResponse(data, safe=False)
     return JsonResponse({"error": "HTTP request error. ", "detail": "Only GET is supported. "})
+
+
+# edit the info of the reference
+def edit_ref(request):
+

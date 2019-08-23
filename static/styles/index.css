@@ -1,5 +1,5 @@
 html {
-    font-family: sans-serif;
+  font-family: sans-serif;
 }
 
 body {
@@ -58,9 +58,12 @@ body {
   background-color: rgb(120, 160, 200);
 }
 
-.labtab {
-  padding: 5px;
-  width: 100%;
+.inline-label {
+  display: inline-block;
+}
+
+.block-label {
+  display: block;
 }
 
 #top h1 {
@@ -75,7 +78,8 @@ body {
   padding: 25px 10px 0;
 }
 
-#user-auth p, #user-auth a {
+#user-auth p,
+#user-auth a {
   padding: 0px 10px 0px;
   display: inline;
 }
@@ -99,7 +103,8 @@ body {
   width: 100%;
 }
 
-#new-lib button, #libs button {
+#new-lib button,
+#libs button {
   text-align: center;
   width: 100px;
   margin: 0 auto;
@@ -107,6 +112,28 @@ body {
 
 #libs button {
   width: 100%;
+}
+
+#edit-tab button {
+  margin: 10px auto 10px 10px;
+}
+
+#edit-tab label {
+  width: 200px;
+  margin: 0 10px;
+}
+
+#edit-tab label,
+#edit-tab input, #edit-tab select {
+  padding: 5px 5px;
+  size: 16px;
+}
+
+#edit-tab textarea {
+  resize: none;
+  font-size: 16px;
+  line-height: 1.5;
+  margin: 5px 10px;
 }
 
 table {
@@ -132,7 +159,8 @@ td {
   text-align: center;
 }
 
-ul, li {
+ul,
+li {
   padding: 0;
   margin: 0;
   list-style: none;

@@ -149,32 +149,90 @@ var content = new Vue({
         return {
             showDefault: true,
             showAddTab: false,
+            showEditTab: false,
 //            refsAvailable: false,
             refs: [],
             activeRef: '',
+
+            editedType: '',
+            editedAuthor: '',
+            editedTitle: '',
+            editedJOB: '',
+            editedYear: null,
+            editedComment: '',
         }
     },
     computed: {
         activeLibId: function(){
             return sidebar.activeLibId;
         },
+        activeRefId: function(){
+            if(this.activeRef === null || this.activeRef === '')
+                return null;
+
+            return Number(this.activeRef.slice(4, this.activeRef.length));
+        }
     },
     methods: {
         setDefaultContent: function(){
+            //show default tab
             this.showDefault = true;
             this.showAddTab = false;
+            this.showEditTab = false;
         },
         addRef: function(){
             if(this.activeLibId === null || this.activeLibId < 1)
                 return;
 
+            //show tab
             this.showDefault = false;
             this.showAddTab = true;
+            this.showEditTab = false;
         },
         removeActiveRef: function(){
+            if(this.activeRef === '' || this.activeRef === null)
+                return;
+            
+            //reset active ref class
+            let resetRef = document.getElementById(this.activeRef);
+            if(resetRef !== null){
+                resetRef.classList.remove("active");
+            }
+
+            //reset the value of activeRef
+            this.activeRef = '';
         },
         activateRef: function(ref_id){
+            this.removeActiveRef();
 
+            this.activeRef = ref_id;
+            let activeTr = document.getElementById(ref_id);
+            if(activeTr !== null)
+                activeTr.classList.add("active");
+        },
+        getRefInfo: function(ref_id){
+            let ref = document.getElementById(ref_id);
+
+            if(ref === null)
+                return;
+
+            this.editedType = ref.querySelector(".type").textContent;
+            this.editedAuthor = ref.querySelector(".author").textContent;
+            this.editedTitle = ref.querySelector(".title").textContent;
+            this.editedJOB = ref.querySelector(".j-or-b").textContent;
+            this.editedYear = ref.querySelector(".year").textContent;
+            this.editedComment = ref.querySelector(".comment").textContent;
+        },
+        editRef: function(){
+            if(this.activeRef === null || this.activeRef === '')
+                return;
+            //get info of the ref to be edited
+            this.getRefInfo(this.activeRef);
+
+            //show edit-tab
+            this.showDefault = false;
+            this.showAddTab = false;
+            this.showEditTab = true;
         },
     }
 })

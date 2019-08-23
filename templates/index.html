@@ -67,7 +67,7 @@
 <div id="content">
     <div id="ref-edit">
         <button @click="addRef">添加</button>
-        <button>编辑</button>
+        <button @click="editRef">编辑</button>
         <button>生成引用</button>
         <button>删除</button>
     </div>
@@ -87,14 +87,14 @@
                 <!-- TODO: use Ajax to get ref list -->
                 {% verbatim refslist %}
                 <tr v-for="ref in refs" :id="'ref-'+ref.ref_id" @click="activateRef('ref-'+ref.ref_id)">
-<!--                    {{ ref }}-->
+                    <!--                    {{ ref }}-->
                     <td>&nbsp;</td>
-                    <td>{{ ref.info.type }}</td>
-                    <td>{{ ref.info.author }}</td>
-                    <td>{{ ref.info.title }}</td>
-                    <td>{{ ref.info.journal_or_booktitle }}</td>
-                    <td>{{ ref.info.year }}</td>
-                    <td>{{ ref.comment }}</td>
+                    <td class="type">{{ ref.info.type }}</td>
+                    <td class="author">{{ ref.info.author }}</td>
+                    <td class="title">{{ ref.info.title }}</td>
+                    <td class="j-or-b">{{ ref.info.journal_or_booktitle }}</td>
+                    <td class="year">{{ ref.info.year }}</td>
+                    <td class="comment">{{ ref.comment }}</td>
                 </tr>
                 {% endverbatim refslist %}
             </table>
@@ -110,6 +110,43 @@
                 <label>文件: </label>
                 <input type="file" name="pdf" style="display: inline">
                 <button type="submit">上传</button>
+            </form>
+        </div>
+
+        <div id="edit-tab" v-else-if="showEditTab">
+            <form action="" method="POST">
+                {% csrf_token %}
+                <input type="number" name="ref_id" v-model="activeRefId" hidden>
+                <div>
+                    <label class="inline-label">Type: </label>
+                    <select name="type" v-model="editedType">
+                        <option>article</option>
+                        <option>inproceedings</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="inline-label">Author: </label>
+                    <input type="text" name="author" v-model="editedAuthor" maxlength="200">
+                </div>
+                <div>
+                    <label class="inline-label">Title: </label>
+                    <input type="text" name="title" v-model="editedTitle" maxlength="200">
+                </div>
+                <div>
+                    <label class="inline-label">Journal/Booktitle: </label>
+                    <input type="text" name="journal_or_booktitle" v-model="editedJOB" maxlength="200">
+                </div>
+                <div>
+                    <label class="inline-label">Year: </label>
+                    <input type="number" name="year" v-model="editedYear" maxlength="4">
+                </div>
+                <div>
+                    <label class="block-label">Comment: </label>
+                    <textarea rows="4" cols="40" name="comment" v-model="editedComment" maxlength="500"></textarea>
+                </div>
+                <div>
+                    <button type="submit">确认</button>
+                </div>
             </form>
         </div>
     </div>
