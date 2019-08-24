@@ -36,7 +36,7 @@
     <div id="library-edit">
         <button type="button" @click="add">新建</button>
         <button type="button" @click="edit">编辑</button>
-        <form id="delete-lib" action="{% url 'ref:delete-lib' %}" method="POST">
+        <form id="delete-lib" action="{% url 'ref:delete-lib' %}" method="POST" style="display: inline">
             {% csrf_token %}
             <input type="number" name="delete_id" v-model="activeLibId" hidden required>
             <button type="button" @click="deleteLib">删除</button>
@@ -69,7 +69,11 @@
         <button @click="addRef">添加</button>
         <button @click="editRef">编辑</button>
         <button>生成引用</button>
-        <button>删除</button>
+        <form id="delete-ref" action="{% url 'ref:delete-ref' %}" method="POST" style="display: inline">
+            {% csrf_token %}
+            <input type="number" v-model="activeRefId" name="delete_id" hidden required>
+            <button @click="deleteRef">删除</button>
+        </form>
     </div>
 
     <div id="content-tab">
@@ -91,7 +95,7 @@
                     <td>&nbsp;</td>
                     <td class="type">{{ ref.info.type }}</td>
                     <td class="author">{{ ref.info.author }}</td>
-                    <td class="title">{{ ref.info.title }}</td>
+                    <td class="title"><a :href="'ref/' + ref.ref_id + '/get-file'">{{ ref.info.title }}</a></td>
                     <td class="j-or-b">{{ ref.info.journal_or_booktitle }}</td>
                     <td class="year">{{ ref.info.year }}</td>
                     <td class="comment">{{ ref.comment }}</td>
@@ -114,8 +118,9 @@
         </div>
 
         <div id="edit-tab" v-else-if="showEditTab">
-            <form action="" method="POST">
+            <form action="{% url 'ref:edit-ref' %}" method="POST">
                 {% csrf_token %}
+                <input type="number" name="lib_id" v-model="activeLibId" hidden>
                 <input type="number" name="ref_id" v-model="activeRefId" hidden>
                 <div>
                     <label class="inline-label">Type: </label>

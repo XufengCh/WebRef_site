@@ -135,7 +135,7 @@ var sidebar = new Vue({
                 return;
             }
             
-            var deleteForm = document.getElementById("delete-lib");
+            let deleteForm = document.getElementById("delete-lib");
             deleteForm.submit();
 
             this.removeActiveTab();
@@ -233,6 +233,16 @@ var content = new Vue({
             this.showDefault = false;
             this.showAddTab = false;
             this.showEditTab = true;
+        },
+        deleteRef: function(){
+            if(this.activeRef === "" || this.activeRef === null)
+                return;
+
+            let deleteForm = document.getElementById("delete-ref");
+            deleteForm.submit();
+        },
+        showCitation: function(){
+
         },
     }
 })

@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404, Http404
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from .models import Library, PdfFile, Ref
 from user.models import User
-from .forms import LibEditForm, DeleteLibForm, UploadPdfForm
+from .forms import LibEditForm, DeleteForm, UploadPdfForm
 import json
 from .pdf_cal import get_pdf_md5_hash, get_default_info
 
@@ -37,7 +37,7 @@ def libedit(request, library_id):
 # delete library
 def delete_lib(request):
     if request.method == "POST" and request.user.is_authenticated:
-        form = DeleteLibForm(request.POST)
+        form = DeleteForm(request.POST)
         if form.is_valid():
             lib_to_delete = get_object_or_404(Library, pk=form.cleaned_data["delete_id"])
 
@@ -73,6 +73,8 @@ def add_ref(request):
             except PdfFile.DoesNotExist:
                 # get default info
                 init_info_dict = get_default_info(pdf)
+                # rename
+                pdf.name = hash + '.pdf'
                 # create & save pdf_saved
                 pdf_saved = PdfFile(hash=pdf_hash, pdf_file=pdf, init_json=json.dumps(init_info_dict))
                 pdf_saved.save()
@@ -108,4 +110,57 @@ def get_library(request):
 
 # edit the info of the reference
 def edit_ref(request):
+    if request.method == 'POST' and request.user.is_authenticated:
+        lib = get_object_or_404(Library, pk=request.POST['lib_id'])
+        ref = get_object_or_404(Ref, pk=request.POST['ref_id'])
 
+        # check permission
+        if lib.user.username != request.user.username or ref.library.id != lib.id:
+            raise Http404("用户权限错误！")
+
+        edited_info = {}
+        data = request.POST
+        edited_info['type'] = data['type']
+        edited_info['author'] = data['author']
+        edited_info['title'] = data['title']
+        edited_info['journal_or_booktitle'] = data['journal_or_booktitle']
+        edited_info['year'] = data['year']
+
+        ref.info_json = json.dumps(edited_info)
+        ref.comment = data['comment']
+
+        ref.save()
+
+    return redirect('/')
+
+
+# get pdf file of the reference
+def get_file(request, ref_id):
+    if request.user.is_authenticated:
+        ref = get_object_or_404(Ref, pk=ref_id)
+        if ref.library.user.username != request.user.username:
+            raise Http404("用户权限错误！")
+
+        pdf_file_path = ref.pdf.pdf_file.path
+        with open(pdf_file_path, 'rb') as file:
+            response = HttpResponse(file.read(), content_type='application/pdf')
+            response['Content-Disposition'] = 'inline; filename="' + ref.pdf.pdf_file.name + '"'
+            return response
+
+    return redirect('/')
+
+
+# delete ref
+def delete_ref(request):
+    if request.method == "POST" and request.user.is_authenticated:
+        form = DeleteForm(request.POST)
+        if form.is_valid():
+            delete_id = form.cleaned_data['delete_id']
+            ref_to_delete = get_object_or_404(Ref, pk=delete_id)
+
+            if ref_to_delete.library.user.username != request.user.username:
+                raise Http404("用户权限错误！")
+
+            ref_to_delete.delete()
+
+    return redirect('/')
