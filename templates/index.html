@@ -68,7 +68,7 @@
     <div id="ref-edit">
         <button @click="addRef">添加</button>
         <button @click="editRef">编辑</button>
-        <button>生成引用</button>
+        <button @click="getRefCitation">生成引用</button>
         <form id="delete-ref" action="{% url 'ref:delete-ref' %}" method="POST" style="display: inline">
             {% csrf_token %}
             <input type="number" v-model="activeRefId" name="delete_id" hidden required>
@@ -154,6 +154,38 @@
                 </div>
             </form>
         </div>
+
+        {% verbatim citation %}
+        <div id="citation-tab" v-else-if="showCitation">
+            <table>
+                <tr>
+                    <th scope="col">&nbsp;</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Author</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Journal/Book Title</th>
+                    <th scope="col">Year</th>
+                    <th scope="col">Comment</th>
+                </tr>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td>{{ editedType }}</td>
+                    <td>{{ editedAuthor }}</td>
+                    <td>{{ editedTitle }}</td>
+                    <td>{{ editedJOB }}</td>
+                    <td>{{ editedYear }}</td>
+                    <td>{{ editedComment }}</td>
+                </tr>
+            </table>
+
+            <div id="citations">
+                <label class="inline-label">MLA: </label>
+                <p>{{ MLACitation }}</p>
+                <label class="inline-label">IEEE: </label>
+                <p>{{ IEEECitation }}</p>
+            </div>
+        </div>
+        {% endverbatim citation %}
     </div>
 </div>
 </body>
