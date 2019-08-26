@@ -71,8 +71,8 @@
         <button @click="getRefCitation">生成引用</button>
         <form id="delete-ref" action="{% url 'ref:delete-ref' %}" method="POST" style="display: inline">
             {% csrf_token %}
-            <input type="number" v-model="activeRefId" name="delete_id" hidden required>
-            <button @click="deleteRef">删除</button>
+            <input type="number" v-model="activeRefId" name="delete_id" hidden>
+            <button @click="deleteRef" type="button">删除</button>
         </form>
     </div>
 

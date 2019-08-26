@@ -74,7 +74,7 @@ def add_ref(request):
                 # get default info
                 init_info_dict = get_default_info(pdf)
                 # rename
-                pdf.name = hash + '.pdf'
+                pdf.name = pdf_hash + '.pdf'
                 # create & save pdf_saved
                 pdf_saved = PdfFile(hash=pdf_hash, pdf_file=pdf, init_json=json.dumps(init_info_dict))
                 pdf_saved.save()

@@ -223,6 +223,9 @@ var content = new Vue({
       this.editedComment = ref.querySelector(".comment").textContent;
     },
     editRef: function() {
+      //check content
+      if (this.showDefault === false) return;
+      //check active ref
       if (this.activeRef === null || this.activeRef === "") return;
       //get info of the ref to be edited
       this.getRefInfo(this.activeRef);
@@ -234,6 +237,7 @@ var content = new Vue({
       this.showCitation = false;
     },
     deleteRef: function() {
+      if (this.showDefault === false) return;
       if (this.activeRef === "" || this.activeRef === null) return;
 
       let deleteForm = document.getElementById("delete-ref");
@@ -293,6 +297,7 @@ var content = new Vue({
       }
     },
     getRefCitation: function() {
+      if (this.showDefault === false) return;
       //check active ref
       if (this.activeRef === "" || this.activeRef === null) return;
       //get info
