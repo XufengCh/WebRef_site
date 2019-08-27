@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <title>WebRef, the online reference manager</title>
+
+    <!--    Vue.js  -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+
+    <!--    Axios for Ajax  -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    {% load static %}
+    <!--    CSS     -->
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/index.css' %}">
+    <!--    Javascript  -->
+    <script src="{% static 'scripts/index.js' %}" async></script>
+</head>
+
+<body>
+<div id="top">
+    <h1>WebRef</h1>
+    <div id="user-auth">
+        {% if user.is_authenticated %}
+        <p>欢迎，{{ user.username }}</p>
+        <a href="{% url 'logout' %}">退出</a>
+        {% else %}
+        <p>请先<a href="{% url 'login' %}">登录</a></p>
+        {% endif %}
+    </div>
+</div>
+
+<div id="sidebar">
+    <div id="library-edit">
+        <button type="button" @click="add">新建</button>
+        <button type="button" @click="edit">编辑</button>
+        <form id="delete-lib" action="{% url 'ref:delete-lib' %}" method="POST" style="display: inline">
+            {% csrf_token %}
+            <input type="number" name="delete_id" v-model="activeLibId" hidden required>
+            <button type="button" @click="deleteLib">删除</button>
+        </form>
+    </div>
+
+    <ul id="libs">
+        {% for lib in libraries %}
+        <div class="libtab" id="lib-{{ lib.id }}" @click="activateTab('lib-{{ lib.id }}')">
+            <li>{{ lib.library_name }}</li>
+            <form action="{% url 'ref:libedit' lib.id %}" method="POST" hidden>
+                {% csrf_token %}
+                <input type="text" name="editname" value="{{ lib.library_name }}" maxlength="100" required>
+                <button type="submit">确认</button>
+            </form>
+        </div>
+        {% endfor %}
+    </ul>
+    {% if user.is_authenticated %}
+    <form id="new-lib" action="{% url 'ref:create' %}" method="POST" v-if="isNewLib">
+        {% csrf_token %}
+        <input type="text" name="libname">
+        <button type="submit">确定</button>
+    </form>
+    {% endif %}
+</div>
+
+<div id="content">
+    <div id="ref-edit">
+        <button @click="addRef">添加</button>
+        <button @click="editRef">编辑</button>
+        <button @click="getRefCitation">生成引用</button>
+        <form id="delete-ref" action="{% url 'ref:delete-ref' %}" method="POST" style="display: inline">
+            {% csrf_token %}
+            <input type="number" v-model="activeRefId" name="delete_id" hidden>
+            <button @click="deleteRef" type="button">删除</button>
+        </form>
+    </div>
+
+    <div id="content-tab">
+        <div id="default-tab" v-if="showDefault">
+            <table id="ref-table">
+                <tr>
+                    <th scope="col">&nbsp;</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Author</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Journal/Book Title</th>
+                    <th scope="col">Year</th>
+                    <th scope="col">Comment</th>
+                </tr>
+                <!-- TODO: use Ajax to get ref list -->
+                {% verbatim refslist %}
+                <tr v-for="ref in refs" :id="'ref-'+ref.ref_id" @click="activateRef('ref-'+ref.ref_id)">
+                    <!--                    {{ ref }}-->
+                    <td>&nbsp;</td>
+                    <td class="type">{{ ref.info.type }}</td>
+                    <td class="author">{{ ref.info.author }}</td>
+                    <td class="title"><a :href="'ref/' + ref.ref_id + '/get-file'">{{ ref.info.title }}</a></td>
+                    <td class="j-or-b">{{ ref.info.journal_or_booktitle }}</td>
+                    <td class="year">{{ ref.info.year }}</td>
+                    <td class="comment">{{ ref.comment }}</td>
+                </tr>
+                {% endverbatim refslist %}
+            </table>
+        </div>
+
+        <div id="add-tab" v-else-if="showAddTab">
+            <p>
+            <h2>请上传pdf文件</h2>
+            </p>
+            <form action="{%url 'ref:add-ref' %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="number" name="library_id" v-model="activeLibId" hidden>
+                <label>文件: </label>
+                <input type="file" name="pdf" style="display: inline">
+                <button type="submit">上传</button>
+            </form>
+        </div>
+
+        <div id="edit-tab" v-else-if="showEditTab">
+            <form action="{% url 'ref:edit-ref' %}" method="POST">
+                {% csrf_token %}
+                <input type="number" name="lib_id" v-model="activeLibId" hidden>
+                <input type="number" name="ref_id" v-model="activeRefId" hidden>
+                <div>
+                    <label class="inline-label">Type: </label>
+                    <select name="type" v-model="editedType">
+                        <option>article</option>
+                        <option>inproceedings</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="inline-label">Author: </label>
+                    <input type="text" name="author" v-model="editedAuthor" maxlength="200">
+                </div>
+                <div>
+                    <label class="inline-label">Title: </label>
+                    <input type="text" name="title" v-model="editedTitle" maxlength="200">
+                </div>
+                <div>
+                    <label class="inline-label">Journal/Booktitle: </label>
+                    <input type="text" name="journal_or_booktitle" v-model="editedJOB" maxlength="200">
+                </div>
+                <div>
+                    <label class="inline-label">Year: </label>
+                    <input type="number" name="year" v-model="editedYear" maxlength="4">
+                </div>
+                <div>
+                    <label class="block-label">Comment: </label>
+                    <textarea rows="4" cols="40" name="comment" v-model="editedComment" maxlength="500"></textarea>
+                </div>
+                <div>
+                    <button type="submit">确认</button>
+                </div>
+            </form>
+        </div>
+
+        {% verbatim citation %}
+        <div id="citation-tab" v-else-if="showCitation">
+            <table>
+                <tr>
+                    <th scope="col">&nbsp;</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Author</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Journal/Book Title</th>
+                    <th scope="col">Year</th>
+                    <th scope="col">Comment</th>
+                </tr>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td>{{ editedType }}</td>
+                    <td>{{ editedAuthor }}</td>
+                    <td>{{ editedTitle }}</td>
+                    <td>{{ editedJOB }}</td>
+                    <td>{{ editedYear }}</td>
+                    <td>{{ editedComment }}</td>
+                </tr>
+            </table>
+
+            <div id="citations">
+                <label class="inline-label">MLA: </label>
+                <p>{{ MLACitation }}</p>
+                <label class="inline-label">IEEE: </label>
+                <p>{{ IEEECitation }}</p>
+            </div>
+        </div>
+        {% endverbatim citation %}
+    </div>
+</div>
+</body>
+
+</html>

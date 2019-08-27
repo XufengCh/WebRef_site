@@ -1,0 +1,16 @@
+"""ref APP URL Configration
+"""
+from django.urls import path
+from . import views
+
+app_name = 'ref'
+urlpatterns = [
+    path('create/', views.create, name='create'),
+    path('<int:library_id>/libedit', views.libedit, name='libedit'),
+    path('delete-lib/', views.delete_lib, name='delete-lib'),
+    path('add-ref/', views.add_ref, name='add-ref'),
+    path('get-lib/', views.get_library, name='get-lib'),
+    path('edit-ref/', views.edit_ref, name='edit-ref'),
+    path('<int:ref_id>/get-file', views.get_file, name='get-file'),
+    path('delete-ref/', views.delete_ref, name='delete-ref'),
+]
